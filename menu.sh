@@ -22,6 +22,10 @@ crear_entorno(){
     else
         echo "Hubo un error al crear el entorno."
     fi
+    if [ -f "${FILENAME}.txt" ]; then
+        echo "Detectado archivo local ${FILENAME}.txt. Movíendolo a la carpeta de salida..."
+        mv "${FILENAME}.txt" "$DIRECTORIO_PRINCIPAL/salida/" 
+    fi
 }
 
 correr_proceso(){
@@ -35,13 +39,13 @@ correr_proceso(){
 if [ "$1" == "-d" ]; then
    echo "Iniciando la limpieza de entorno..."
    pkill -f "consolidar.sh" 2>/dev/null
-   rm -rf "$HOME/EPNro1"
+   rm -rf "$DIRECTORIO_PRINCIPAL"
    echo "Eliminando entorno y deteniendo los procesos..."
    exit 0;
 fi
 
 alumnos_ordenados_padron(){
-    export ARCHIVO_SALIDA="FILENAME.txt"
+   export  ARCHIVO_SALIDA="$HOME/EPNro1/salida/${FILENAME}.txt"
     if [ -f "$ARCHIVO_SALIDA" ]; then
         echo -e "Mostrando listado de alumnos: \n"
         sort "$ARCHIVO_SALIDA"
@@ -51,7 +55,7 @@ alumnos_ordenados_padron(){
 }
 
 notas_mas_altas(){
-    export ARCHIVO_SALIDA="FILENAME.txt"
+    export  ARCHIVO_SALIDA="$HOME/EPNro1/salida/${FILENAME}.txt"
     if [ -f "$ARCHIVO_SALIDA" ]; then
         echo "Las notas mas altas son: "
         cut -d' ' -f1- "$ARCHIVO_SALIDA" | sort -nr -k5 | head -n 10
@@ -61,7 +65,7 @@ notas_mas_altas(){
 }
 
 info_por_padron(){
-    export ARCHIVO_SALIDA="FILENAME.txt"
+    export  ARCHIVO_SALIDA="$HOME/EPNro1/salida/${FILENAME}.txt"
     PADRON_USUARIO=$1
     if [ -f "$ARCHIVO_SALIDA" ]; then
         grep -e "^$PADRON_USUARIO" "$ARCHIVO_SALIDA" || echo "Padrón no encontrado"
