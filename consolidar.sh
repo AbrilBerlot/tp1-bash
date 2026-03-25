@@ -8,7 +8,7 @@ procesado="$HOME/EPNro1/procesado"
 ls "$entrada"/*.txt 2>/dev/null | while read -r archivo
 do
   if [-f "$archivo" ]; then
-     cat "archivo" >> "$ARCHIVO_SALIDA/${FILENAME}.txt"
+     cat "$archivo" >> "$ARCHIVO_SALIDA/${FILENAME}.txt"
      mv "$archivo" "$procesado/"
   fi
 done
